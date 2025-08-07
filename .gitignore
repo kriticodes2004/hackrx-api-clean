@@ -1,0 +1,15 @@
+# Ignore virtual environments
+.venv/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore environment variables
+.env
+
+# Ignore FAISS index
+faiss_index/
+
+# Ignore downloaded files
+downloads/
