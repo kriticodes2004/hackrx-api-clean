@@ -16,6 +16,11 @@ class QueryRequest(BaseModel):
     documents: str
     questions: List[str]
 
+# ✅ Health check for Render
+@app.get("/")
+def read_root():
+    return {"status": "ok"}
+
 @app.post("/hackrx/run")
 async def hackrx_run(request: Request, body: QueryRequest, authorization: Optional[str] = Header(None)):
     # ✅ Step 1: Check for Bearer token
@@ -40,14 +45,13 @@ async def hackrx_run(request: Request, body: QueryRequest, authorization: Option
         answers = answer_all_queries(body.questions)
         print(answers)
 
-
         return {"answers": answers}
 
     except Exception as e:
         print("❌ Error:", str(e))
         raise HTTPException(status_code=500, detail=str(e))
 
-# Local test only (don't run in production)
+# Local test only
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
