@@ -20,7 +20,7 @@ def read_root():
 
 @app.post("/api/v1/hackrx/run")
 async def hackrx_run(body: QueryRequest, authorization: Optional[str] = Header(None)):
-    # 1️⃣ Auth check
+    
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Missing or invalid Authorization header.")
     
