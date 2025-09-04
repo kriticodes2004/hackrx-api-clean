@@ -4,14 +4,14 @@ from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 import os
 
-print("📂 Current working directory:", os.getcwd())
+print(" Current working directory:", os.getcwd())
 
 load_dotenv()
 groq_api_key = os.getenv("GROQ_API_KEY")
-print("🔑 Loaded GROQ_API_KEY:", groq_api_key)   # Debugging
+print(" Loaded GROQ_API_KEY:", groq_api_key)   # Debugging
 
 if not groq_api_key:
-    raise ValueError("❌ GROQ_API_KEY not found! Please check your .env file.")
+    raise ValueError(" GROQ_API_KEY not found! Please check your .env file.")
 
 from langchain_groq import ChatGroq
 llm = ChatGroq(
@@ -19,10 +19,7 @@ llm = ChatGroq(
     model="llama3-70b-8192"
 )
 def parse_queries(queries):
-    """
-    Parses a list of queries into structured JSON with domain, sub_domain, fields.
     
-    """
     parse_prompt = PromptTemplate.from_template("""
     You are an expert in understanding insurance/legal queries.
     Parse the following questions and extract for EACH:
@@ -108,5 +105,5 @@ def parse_queries(queries):
 
 if __name__ == "__main__":
     test_queries = ["What is the grace period?", "Does my policy cover artificial pregnancy?"]
-    print("\n🧠 Parsed Queries:")
+    print("\n Parsed Queries:")
     print(parse_queries(test_queries))
