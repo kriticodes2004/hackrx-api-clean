@@ -4,13 +4,11 @@ from langchain_groq import ChatGroq
 from langchain.prompts import PromptTemplate
 import json
 
-# Load API Key
 load_dotenv()
 groq_api_key = os.getenv("GROQ_API_KEY")
 if not groq_api_key:
-    raise ValueError("❌ GROQ_API_KEY not found in environment variables!")
+    raise ValueError(" GROQ_API_KEY not found in environment variables!")
 
-# Initialize Groq LLM
 llm = ChatGroq(
     groq_api_key=groq_api_key,
     model="llama3-70b-8192",
@@ -52,7 +50,7 @@ def generate_answer(query, retrieved_docs, parsed_info=None):
         parsed_info=parsed_info or "N/A"
     ))
 
-    # ✅ Parse JSON safely
+    
     try:
         start = response.content.find("{")
         end = response.content.rfind("}") + 1
@@ -65,7 +63,7 @@ def generate_answer(query, retrieved_docs, parsed_info=None):
             "explanation": "No relevant clauses were retrieved for this query."
         }
     
-# ✅ Test run
+
 if __name__ == "__main__":
     sample_query = "Does my policy cover artificial pregnancy?"
     sample_docs = [
