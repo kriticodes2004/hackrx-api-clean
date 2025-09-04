@@ -7,20 +7,17 @@ from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 from query_parser import parse_queries  # This must exist
 
-# ✅ Load Groq API key
 load_dotenv()
 groq_api_key = os.getenv("GROQ_API_KEY")
 if not groq_api_key:
-    raise ValueError("❌ GROQ_API_KEY not found in .env")
+    raise ValueError(" GROQ_API_KEY not found in .env")
 
-# ✅ Initialize Groq LLM
 llm = ChatGroq(
     groq_api_key=groq_api_key,
     model="llama3-70b-8192",
     temperature=0.1
 )
 
-# ✅ Safe JSON parsing from LLM output
 def safe_json_loads(data):
     try:
         start = data.find('[')
@@ -29,17 +26,15 @@ def safe_json_loads(data):
             data = data[start:end]
         return json.loads(data)
     except Exception as e:
-        print("❌ JSON parsing failed:", e)
-        print("🔹 Raw LLM Output:\n", data)
+        print(" JSON parsing failed:", e)
+        print(" Raw LLM Output:\n", data)
         return []
 
-# ✅ Initialize FAISS retriever
 def init_retriever(index_path="faiss_index"):
     embedding = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
     db = FAISS.load_local(index_path, embedding, allow_dangerous_deserialization=True)
     return db.as_retriever(search_kwargs={"k": 3})
 
-# ✅ For each parsed query, get relevant docs
 def retrieve_docs(parsed_queries, retriever):
     all_results = []
     for pq in parsed_queries:
@@ -55,7 +50,7 @@ def retrieve_docs(parsed_queries, retriever):
         })
     return all_results
 
-# ✅ Generate ONE sentence answer
+
 def generate_answer(query, retrieved_docs, parsed_info=None):
     context = "\n\n".join(retrieved_docs[:5]) if retrieved_docs else "No relevant information found."
 
@@ -84,7 +79,7 @@ def generate_answer(query, retrieved_docs, parsed_info=None):
 
     return response.content.strip()
 
-# ✅ MASTER FUNCTION: parse + retrieve + answer
+
 def answer_all_queries(queries: list, index_path="faiss_index") -> list[str]:
     """
     Given a list of queries, returns clean, one-sentence answers for each.
@@ -105,7 +100,7 @@ def answer_all_queries(queries: list, index_path="faiss_index") -> list[str]:
 
     return answers
 
-# ✅ Test run
+
 if __name__ == "__main__":
     queries = [
         "Does my policy cover artificial pregnancy?",
