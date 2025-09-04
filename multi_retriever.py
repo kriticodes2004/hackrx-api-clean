@@ -46,7 +46,7 @@ def multi_retriever(parsed_query_json, retriever):
 
     print("\n Preview of top retrieved docs:")
     for i, doc in enumerate(unique_docs[:2]):
-        print(f"\n📄 [Doc {i+1}]")
+        print(f"\n [Doc {i+1}]")
         print(doc[:200] + "...\n")
 
     return unique_docs[:3]  
