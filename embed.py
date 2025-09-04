@@ -2,7 +2,7 @@ import os
 import torch
 
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS #previously chromaDB
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
 
@@ -40,7 +40,6 @@ if __name__ == "__main__":
     text = load_document_from_url(test_url)
     db = create_faiss_index(text, source_url=test_url)
 
-    # Test search
     retriever = db.as_retriever(search_kwargs={"k": 2})
     query = "What is this document about?"
     results = retriever.get_relevant_documents(query)
