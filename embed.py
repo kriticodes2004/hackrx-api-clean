@@ -12,13 +12,13 @@ def create_faiss_index(text: str, source_url: str, index_path: str = "faiss_inde
 
     splitter = RecursiveCharacterTextSplitter(chunk_size=1100, chunk_overlap=150)
     chunks = splitter.split_documents(docs)
-    print(f"🔹 Chunked text into {len(chunks)} segments.")
+    print(f" Chunked text into {len(chunks)} segments.")
 
     embedding = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 
     vectordb = FAISS.from_documents(chunks, embedding)
     vectordb.save_local(index_path)
-    print(f"✅ FAISS index created and saved at '{index_path}' with metadata.")
+    print(f" FAISS index created and saved at '{index_path}' with metadata.")
 
     return vectordb
 device = "cuda" if torch.cuda.is_available() else "cpu"
